@@ -7,36 +7,57 @@ from PIL import Image, ImageFont, ImageDraw
 import numpy as np
 
 def main():
-    text, width, height = get_image("E:\python prjcts\img2ascii\img_to_ascii_img\srk.jpg")
-    draw_image(text, width=width, height=height)
+    converted_ascii_from_img, width, height = get_image("E:\python prjcts\img2ascii\img_to_ascii_img\srk.jpg")
+    draw_image(converted_ascii_from_img, 1500, 1500)
     
-
 
 def get_image(file_path):
     # get the image from specified file path
     img = Image.open(file_path)
-    pixel_map = img.load()
-  
-    # Extracting the width and height 
-    # of the image:
-    width, height = img.size
-    
-    pixels =[226, 137, 125, 226, 137, 125, 223, 137, 133, 223, 136, 128, 226, 138, 120, 226, 129, 116, 228, 138, 123, 227, 134, 124, 227, 140, 127, 225, 136, 119, 228, 135, 126, 225, 134, 121, 223, 130, 108, 226, 139, 119, 223, 135, 120, 221, 129, 114, 221, 134, 108, 221, 131, 113, 222, 138, 121, 222, 139, 114, 223, 127, 109, 223, 132, 105, 224, 129, 102, 221, 134, 109, 218, 131, 110, 221, 133, 113, 223, 130, 108, 225, 125, 98, 221, 130, 121, 221, 129, 111, 220, 127, 121, 223, 131, 109, 225, 127, 103, 223] 
 
-    # Convert the pixels into an array using numpy
-    array = np.array(pixels, dtype=np.uint8)
-    text = "sdfasdjkfhasjkdhfasl2364yr9 70ewqyrjsdnf,m.asdhrq;34uuiqewyhrsjkdnbfkmlasdfbasldjkf\nhjsdkfhkskfdjhsdjkfhjksdhfewioufhrkzdnfv,msdfnlsfrhjwefhroiwerfhyoishf\nhjskfjkncsxvijewyhruieshjkfn,msdnf,mnsenrijwehyroiewhroi  skjnfkjshruihewhoiwehfi\n"
-    return text, width, height
+    # extract width and height from the image
+    width, height = img.size
+    # get the converted (text) version of the image provided
+    converted_ascii = convert_img_to_ascii(img)
+    return converted_ascii, width, height
+
+def convert_img_to_ascii(img):
+    # Return the final string that represents the final image
+    array = np.asarray(img)
+
+    new_array = np.empty([array.shape[0], array.shape[1]], dtype=np.int32)
+    # take the average RGB value of each pixel and store it inside {new_array}
+    for i, j, k in np.ndindex(array.shape):
+        new_array[i, j] = np.mean(array[i, j, :])
+
+    # map the values of each pixel to image
+    final_image_txt = ""
+    for row in new_array:
+        for col in row:
+            if col == 0:
+                final_image_txt += "."
+            elif col > 0 and col < 50 :
+                final_image_txt += ":"
+            elif col >=50 and col < 100 :
+                final_image_txt += "i"
+            elif col >= 100 and col < 150 :
+                final_image_txt += "k"
+            elif col >= 150 and col < 200 :
+                final_image_txt += "g"    
+            else :
+                final_image_txt += "N"
+        final_image_txt += "\n"
+    print(final_image_txt)
+    return final_image_txt
 
 def draw_image(txt, width, height):
     # write the complete text then draw on image
     rectangle = draw_rectangle(width, height)
 
-    # fill in the text    
+    # fill in the text inside the rectangle
     draw_text_on_image(txt, rectangle)
 
 def draw_text_on_image(text, rectangle):
-
     # get an image to draw on it, in our case a plane white rectangle image
     with rectangle.convert("RGBA") as base:
 
@@ -45,13 +66,13 @@ def draw_text_on_image(text, rectangle):
 
         # get a font
         fnt = ImageFont.truetype("arial.ttf", 12)
+
         # get a drawing context
         d = ImageDraw.Draw(txt)
+
         # draw text, full opacity
         d.text((10, 60), f"{text}", font=fnt, fill=(0, 0, 0, 255))
-
         out = Image.alpha_composite(base, txt)
-
         out.show()
 
 def draw_rectangle(width, height):
