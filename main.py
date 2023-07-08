@@ -75,7 +75,7 @@ def draw_text_on_image(text, rectangle):
         txt = Image.new("RGBA", base.size, (255, 255, 255, 0))
 
         # get a font
-        fnt = ImageFont.truetype("img_to_ascii_img\CourierRegular.ttf", 4)
+        fnt = ImageFont.truetype("img_to_ascii_img\Courier_Prime\CourierPrime-Bold.ttf", 4)
 
         # get a drawing context
         d = ImageDraw.Draw(txt)
