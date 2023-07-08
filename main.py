@@ -8,7 +8,7 @@ import numpy as np
 
 def main():
     converted_ascii_from_img, width, height = get_image("E:\python prjcts\img2ascii\img_to_ascii_img\srk.jpg")
-    draw_image(converted_ascii_from_img, 3000, 3000)
+    draw_image(converted_ascii_from_img, width=width*8, height=height*8)
     
 
 def get_image(file_path):
@@ -57,7 +57,7 @@ def convert_img_to_ascii(img):
             else :
                 final_image_txt += " N "
         final_image_txt += "\n"
-    print(final_image_txt)
+    print("generated text")
     return final_image_txt
 
 def draw_image(txt, width, height):
@@ -75,7 +75,7 @@ def draw_text_on_image(text, rectangle):
         txt = Image.new("RGBA", base.size, (255, 255, 255, 0))
 
         # get a font
-        fnt = ImageFont.truetype("arial.ttf", 8)
+        fnt = ImageFont.truetype("img_to_ascii_img\CourierRegular.ttf", 4)
 
         # get a drawing context
         d = ImageDraw.Draw(txt)
