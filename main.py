@@ -8,7 +8,7 @@ import numpy as np
 
 def main():
     converted_ascii_from_img, width, height = get_image("E:\python prjcts\img2ascii\img_to_ascii_img\srk.jpg")
-    draw_image(converted_ascii_from_img, 1500, 1500)
+    draw_image(converted_ascii_from_img, 3000, 3000)
     
 
 def get_image(file_path):
@@ -35,17 +35,27 @@ def convert_img_to_ascii(img):
     for row in new_array:
         for col in row:
             if col == 0:
-                final_image_txt += "."
-            elif col > 0 and col < 50 :
-                final_image_txt += ":"
-            elif col >=50 and col < 100 :
-                final_image_txt += "i"
-            elif col >= 100 and col < 150 :
-                final_image_txt += "k"
-            elif col >= 150 and col < 200 :
-                final_image_txt += "g"    
+                final_image_txt += "   "
+            elif col > 0 and col < 25 :
+                final_image_txt += " . "
+            elif col >=25 and col < 50 :
+                final_image_txt += " : "
+            elif col >= 50 and col < 75 :
+                final_image_txt += " o "
+            elif col >= 75 and col < 100 :
+                final_image_txt += " i "
+            elif col >= 100 and col < 125 :
+                final_image_txt += " l "    
+            elif col >= 125 and col < 150 :
+                final_image_txt += " p " 
+            elif col >= 150 and col < 175 :
+                final_image_txt += " m " 
+            elif col >= 175 and col < 200 :
+                final_image_txt += " n " 
+            elif col >= 200 and col < 225 :
+                final_image_txt += " @ " 
             else :
-                final_image_txt += "N"
+                final_image_txt += " N "
         final_image_txt += "\n"
     print(final_image_txt)
     return final_image_txt
@@ -65,7 +75,7 @@ def draw_text_on_image(text, rectangle):
         txt = Image.new("RGBA", base.size, (255, 255, 255, 0))
 
         # get a font
-        fnt = ImageFont.truetype("arial.ttf", 12)
+        fnt = ImageFont.truetype("arial.ttf", 8)
 
         # get a drawing context
         d = ImageDraw.Draw(txt)
