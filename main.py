@@ -13,7 +13,7 @@ def main():
 
 def get_image(file_path):
     # get the image from specified file path
-    img = Image.open(file_path)
+    img = Image.open(file_path).convert("L")
 
     # extract width and height from the image
     width, height = img.size
@@ -27,8 +27,8 @@ def convert_img_to_ascii(img):
 
     new_array = np.empty([array.shape[0], array.shape[1]], dtype=np.int32)
     # take the average RGB value of each pixel and store it inside {new_array}
-    for i, j, k in np.ndindex(array.shape):
-        new_array[i, j] = np.mean(array[i, j, :])
+    for i, j in np.ndindex(array.shape):
+        new_array[i, j] = np.mean(array[i, j])
 
     # map the values of each pixel to image
     final_image_txt = ""
