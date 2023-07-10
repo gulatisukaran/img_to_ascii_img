@@ -14,12 +14,13 @@ def parse_from_cmd():
     parser.add_argument('--scale', dest='scale', required=False)
     parser.add_argument('--out', dest='outFile', required=False)
     parser.add_argument('--cols', dest='cols', required=False)
-    parser.add_argument('--morelevels', dest='morelevels', action='store_true')
+    parser.add_argument('--scalelarge', dest='morelevels', action='store_true')
 
 def save_to_txt(imgString):
     txt = open("ascii-img.txt", 'w')
-    for row in imgString:
-        txt.write(row + "\n")
+    # for row in imgString:
+    #     txt.write(row + "\n")
+    txt.write(imgString)
     txt.close()
 
 def open_img(filename, cols, scale, scalelarge=True):
@@ -39,7 +40,11 @@ def open_img(filename, cols, scale, scalelarge=True):
     # compute the number of rows of the final grid
     rows = int(imgHeight/tileHeight)
     
-    imgString = []
+    # imgStringList = []
+    # imgStringListCol = list(cols)
+    imgStringRow = ""
+    imgStringX = ""
+    
     # cut tiles from image:
     for rowNumber in range(0, rows):
         # loop through each row
@@ -58,8 +63,9 @@ def open_img(filename, cols, scale, scalelarge=True):
             # correct x2 for tiles of last column (which could be
             # reduced if num of cols are not a multiple of a col width)
             if colNumber == cols-1: x2 = imgWidth
+            # imgStringList.append("")
 
-            # crop the image and get avg brightness:
+            # crop the image and get avg brightness:d
             imgTile = img.crop((x1, y1, x2, y2))
             brightness = get_avg_brightness(imgTile)
 
@@ -67,9 +73,20 @@ def open_img(filename, cols, scale, scalelarge=True):
                 char = gscale1[int(brightness*69/255)]
             else:
                 char = gscale2[int(brightness*9/255)]
-            imgString[rowNumber] += char
+            # add a suitable character to each row
+            imgStringRow += char
+        
+        # when going to next row add the computed row to next line
+        imgStringX += imgStringRow + '\n'
+        imgStringRow = ""
 
-        save_to_txt(imgString)
+    print(imgStringX)
+        # save_to_txt(imgStringX)
+    
+    # imgStringX = ""
+    save_to_txt(imgStringX)
+    
+        
 
 def get_avg_brightness(imageTile):
     """
@@ -80,10 +97,9 @@ def get_avg_brightness(imageTile):
     return np.average(img.reshape(width*height))
 
 def main():
-    open_img('img_to_ascii_img\srk.jpg', cols=100, scale=1)
+    open_img('img_to_ascii_img\img3.jpeg', cols=250, scale=0.8, scalelarge=False)
 
 
 if __name__ == "__main__":
     main()
  
-
