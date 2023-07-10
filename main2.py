@@ -91,7 +91,7 @@ def get_avg_brightness(imageTile):
     return np.average(img.reshape(width*height))
 
 def main():
-    open_img('img_to_ascii_img\img3.jpeg', cols=250, scale=0.8, scalelarge=False)
+    open_img('img_to_ascii_img\sample-img.jpg', cols=250, scale=0.5, scalelarge=False)
 
 
 if __name__ == "__main__":
