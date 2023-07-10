@@ -18,8 +18,6 @@ def parse_from_cmd():
 
 def save_to_txt(imgString):
     txt = open("ascii-img.txt", 'w')
-    # for row in imgString:
-    #     txt.write(row + "\n")
     txt.write(imgString)
     txt.close()
 
@@ -40,8 +38,6 @@ def open_img(filename, cols, scale, scalelarge=True):
     # compute the number of rows of the final grid
     rows = int(imgHeight/tileHeight)
     
-    # imgStringList = []
-    # imgStringListCol = list(cols)
     imgStringRow = ""
     imgStringX = ""
     
@@ -78,12 +74,10 @@ def open_img(filename, cols, scale, scalelarge=True):
         
         # when going to next row add the computed row to next line
         imgStringX += imgStringRow + '\n'
+        # empty the string to use it in next iteration
         imgStringRow = ""
 
     print(imgStringX)
-        # save_to_txt(imgStringX)
-    
-    # imgStringX = ""
     save_to_txt(imgStringX)
     
         
